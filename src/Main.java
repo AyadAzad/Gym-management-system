@@ -7,23 +7,57 @@ public class Main {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Gym Management Login");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 200);
-
+        frame.setSize(500, 400);
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 2));
+        panel.setLayout(new GridBagLayout());
+
+        GridBagConstraints gridBag = new GridBagConstraints();
+        gridBag.fill = GridBagConstraints.HORIZONTAL;
+        gridBag.insets = new Insets(10,10,10,10);
+
+        panel.setBackground(new Color(81,128,131));
 
         JLabel usernameLabel = new JLabel("Username:");
-        JLabel passwordLabel = new JLabel("Password:");
-        JTextField usernameField = new JTextField();
-        JPasswordField passwordField = new JPasswordField();
-        JButton loginButton = new JButton("Login");
+        usernameLabel.setForeground(new Color(255,255,255));
+        usernameLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
 
-        panel.add(usernameLabel);
-        panel.add(usernameField);
-        panel.add(passwordLabel);
-        panel.add(passwordField);
-        panel.add(new JLabel()); // Empty space
-        panel.add(loginButton);
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setForeground(new Color(255,255,255));
+        passwordLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+
+        JTextField usernameField = new JTextField();
+        usernameField.setPreferredSize(new Dimension(200,40));
+        usernameField.setFont(new Font("ARAIL", Font.BOLD, 16));
+
+        JPasswordField passwordField = new JPasswordField();
+        passwordField.setPreferredSize(new Dimension(200,40));
+        passwordField.setFont(new Font("ARAIL", Font.BOLD, 16));
+
+        JButton loginButton = new JButton("Login");
+        loginButton.setFont(new Font("ARAIL", Font.BOLD, 16));
+        loginButton.setBackground(new Color(0,190,0));
+
+
+
+        gridBag.gridx=0;
+        gridBag.gridy=0;
+        panel.add(usernameLabel, gridBag);
+
+
+        gridBag.gridy=1;
+        panel.add(passwordLabel, gridBag);
+
+        gridBag.gridx=1;
+        gridBag.gridy=0;
+        panel.add(usernameField, gridBag);
+
+        gridBag.gridx=1;
+        gridBag.gridy=1;
+        panel.add(passwordField, gridBag);
+
+        gridBag.gridy=3;
+        gridBag.gridwidth=2;
+        panel.add(loginButton, gridBag);
 
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -32,7 +66,7 @@ public class Main {
                 String password = new String(passwordField.getPassword());
 
                 // Check the username and password (you can add your authentication logic here)
-                if (username.equals("admin") && password.equals("password")) {
+                if (username.equals("admin") && password.equals("123")) {
                     // Successful login, open the main application window
                     frame.dispose(); // Close the login window
                     openMainWindow();

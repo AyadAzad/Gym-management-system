@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,14 +21,17 @@ public class MemberManager {
         membersTableModel.addColumn("Period");
         membersTableModel.addColumn("Coach");
 
+
         JTable membersTable = new JTable(membersTableModel);
         JScrollPane membersScrollPane = new JScrollPane(membersTable);
-
+        membersTable.getTableHeader().setFont(new Font("ARAIL", Font.BOLD, 16));
         // Create buttons for adding, removing, and editing members
         JButton addMemberButton = new JButton("Add Member");
+        addMemberButton.setFont(new Font("ARAIL", Font.BOLD, 16));
         JButton removeMemberButton = new JButton("Remove Member");
+        removeMemberButton.setFont(new Font("ARAIL", Font.BOLD, 16));
         JButton editMemberButton = new JButton("Edit Member");
-
+        editMemberButton.setFont(new Font("ARAIL", Font.BOLD, 16));
         // Add buttons to a panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addMemberButton);
@@ -92,6 +96,8 @@ public class MemberManager {
         nameLabel.setHorizontalAlignment(JLabel.RIGHT);
         JTextField nameField = new JTextField();
         nameField.setPreferredSize(new Dimension(200,40));
+        nameLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        nameField.setFont(new Font("ARAIL", Font.BOLD, 16));
 
 
 
@@ -99,23 +105,33 @@ public class MemberManager {
         JTextField ageField = new JTextField();
         ageField.setPreferredSize(new Dimension(200,40));
         ageLabel.setHorizontalAlignment(JLabel.RIGHT);
+        ageLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        ageField.setFont(new Font("ARAIL", Font.BOLD, 16));
 
         JLabel contactLabel = new JLabel("Contact Number:");
         JTextField contactField = new JTextField();
         contactField.setPreferredSize(new Dimension(200,40));
         contactLabel.setHorizontalAlignment(JLabel.RIGHT);
+        contactLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        contactField.setFont(new Font("ARAIL", Font.BOLD, 16));
 
         JLabel periodLabel = new JLabel("Period:");
         JTextField periodField = new JTextField();
         periodField.setPreferredSize(new Dimension(200,40));
         periodLabel.setHorizontalAlignment(JLabel.RIGHT);
+        periodLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        periodField.setFont(new Font("ARAIL", Font.BOLD, 16));
 
         JLabel coachLabel = new JLabel("Coach:");
         JComboBox<String> coachComboBox = new JComboBox<>(getCoachNames());
         coachLabel.setHorizontalAlignment(JLabel.RIGHT);
+        coachLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coachComboBox.setFont(new Font("ARAIL", Font.BOLD, 16));
 
         JButton addButton = new JButton("Add Member");
-
+        addButton.setFont(new Font("ARAIL", Font.BOLD, 16));
+        addButton.setBackground(new Color(0,200,20));
+        addButton.setBorder(new LineBorder(Color.BLACK, 2, true));
 
 
         gridBag.gridx = 0;
@@ -189,7 +205,7 @@ public class MemberManager {
 
     private static String[] getCoachNames() {
         // Mocked coach names; replace with your actual data source
-        return new String[]{"Coach 1", "Coach 2", "Coach 3"};
+        return new String[]{"Ayad", "Ahmed", "Akam"};
     }
 
     private static void openAddMemberForm() {
