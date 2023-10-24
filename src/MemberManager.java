@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -26,15 +27,15 @@ public class MemberManager {
         JScrollPane membersScrollPane = new JScrollPane(membersTable);
         membersTable.getTableHeader().setFont(new Font("ARAIL", Font.BOLD, 16));
         // Create buttons for adding, removing, and editing members
-        JButton addMemberButton = new JButton("Add Member");
-        addMemberButton.setFont(new Font("ARAIL", Font.BOLD, 16));
+
+
         JButton removeMemberButton = new JButton("Remove Member");
         removeMemberButton.setFont(new Font("ARAIL", Font.BOLD, 16));
         JButton editMemberButton = new JButton("Edit Member");
         editMemberButton.setFont(new Font("ARAIL", Font.BOLD, 16));
         // Add buttons to a panel
         JPanel buttonPanel = new JPanel();
-        buttonPanel.add(addMemberButton);
+
         buttonPanel.add(removeMemberButton);
         buttonPanel.add(editMemberButton);
 
@@ -45,14 +46,6 @@ public class MemberManager {
         panel.add(membersScrollPane, BorderLayout.CENTER);
         panel.add(buttonPanel, BorderLayout.SOUTH);
         panel.add(formPanel, BorderLayout.EAST);
-
-        // Add an action listener for the addMemberButton to open the member form
-        addMemberButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openAddMemberForm();
-            }
-        });
 
         // Implement action listeners for removeMemberButton and editMemberButton
         removeMemberButton.addActionListener(new ActionListener() {
@@ -90,7 +83,7 @@ public class MemberManager {
         gridBag.fill = GridBagConstraints.HORIZONTAL;
         gridBag.insets = new Insets(10,10,10,10);
 
-        formPanel.setPreferredSize(new Dimension(500,300));
+        formPanel.setPreferredSize(new Dimension(400,300));
 
         JLabel nameLabel = new JLabel("Name:");
         nameLabel.setHorizontalAlignment(JLabel.RIGHT);
@@ -194,6 +187,7 @@ public class MemberManager {
     private static void addMemberToTable(String name, String age, String contact, String period, String coach) {
         int memberId = membersTableModel.getRowCount() + 1;
         membersTableModel.addRow(new Object[]{memberId, name, age, contact, period, coach});
+
     }
 
     private static void clearMemberFormFields(JTextField nameField, JTextField ageField, JTextField contactField, JTextField periodField) {
@@ -208,7 +202,4 @@ public class MemberManager {
         return new String[]{"Ayad", "Ahmed", "Akam"};
     }
 
-    private static void openAddMemberForm() {
-        // Implement logic to open the add member form here (if needed)
-    }
 }
