@@ -10,9 +10,9 @@ public class mainWindow {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         // Create panels for different functionalities (members, coaches, payment)
-        JPanel membersPanel = MemberManager.createMembersPanel(); // Call static method
-        JPanel coachesPanel = CoachManager.createCoachesPanel(); // Call static method
-        JPanel paymentPanel = paymentManager.createPaymentPanel(); // Call static method
+        JPanel membersPanel = MemberManager.createMembersPanel();
+        JPanel coachesPanel = CoachManager.createCoachesPanel();
+        JPanel paymentPanel = paymentManager.createPaymentPanel();
 
         // Add panels to the tabbed pane
         tabbedPane.addTab("Members", membersPanel);

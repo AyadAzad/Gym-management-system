@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 
 public class loginPage extends JFrame{
     private BufferedImage backgroundImage;
+
     public loginPage(){
         JFrame frame = new JFrame("Gym Management Login");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -20,7 +21,7 @@ public class loginPage extends JFrame{
         this.setSize(500, 400);
 
         try {
-            backgroundImage = ImageIO.read(new File("C:/Users/Ayad/OneDrive/Desktop/gym_background.jpg")); // Change this to your image path
+            backgroundImage = ImageIO.read(new File("image/gym_background.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }

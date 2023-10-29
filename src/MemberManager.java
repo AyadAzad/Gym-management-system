@@ -13,7 +13,7 @@ public class MemberManager {
     public static JPanel createMembersPanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
-        // Create a table model for members
+        // Creating a table model for members, later on we'll use Database for this purpose
         membersTableModel = new DefaultTableModel();
         membersTableModel.addColumn("Member ID");
         membersTableModel.addColumn("Name");
@@ -26,7 +26,7 @@ public class MemberManager {
         JTable membersTable = new JTable(membersTableModel);
         JScrollPane membersScrollPane = new JScrollPane(membersTable);
         membersTable.getTableHeader().setFont(new Font("ARAIL", Font.BOLD, 16));
-        // Create buttons for adding, removing, and editing members
+        // Create buttons for removing, and editing members
 
 
         JButton removeMemberButton = new JButton("Remove Member");
@@ -39,15 +39,15 @@ public class MemberManager {
         buttonPanel.add(removeMemberButton);
         buttonPanel.add(editMemberButton);
 
-        // Create a panel for the member form
+        // Creating a panel for the member form
         JPanel formPanel = createMemberFormPanel();
 
-        // Add components to the main panel
+        // Adding components to the main panel
         panel.add(membersScrollPane, BorderLayout.CENTER);
         panel.add(buttonPanel, BorderLayout.SOUTH);
         panel.add(formPanel, BorderLayout.EAST);
 
-        // Implement action listeners for removeMemberButton and editMemberButton
+        // Implementing action listeners for removeMemberButton and editMemberButton
         removeMemberButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -60,13 +60,13 @@ public class MemberManager {
             }
         });
 
+        // to edit member
         editMemberButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = membersTable.getSelectedRow();
                 if (selectedRow >= 0) {
-                    // Implement logic to open the edit member form
-                    // You can pass the selected member's details to the edit form
+                    // Implementing logic to open the edit member form
                 } else {
                     JOptionPane.showMessageDialog(null, "Select a member to edit.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -126,7 +126,7 @@ public class MemberManager {
         addButton.setBackground(new Color(0,200,20));
         addButton.setBorder(new LineBorder(Color.BLACK, 2, true));
 
-
+        // grid style for the fields
         gridBag.gridx = 0;
         gridBag.gridy = 0;
         formPanel.add(nameLabel, gridBag);
@@ -173,10 +173,10 @@ public class MemberManager {
                 String period = periodField.getText();
                 String selectedCoach = (String) coachComboBox.getSelectedItem();
 
-                // Add member to the table
+                // to Add member to the table
                 addMemberToTable(name, age, contact, period, selectedCoach);
 
-                // Clear form fields
+                // to Clear form fields
                 clearMemberFormFields(nameField, ageField, contactField, periodField);
             }
         });
@@ -198,7 +198,7 @@ public class MemberManager {
     }
 
     private static String[] getCoachNames() {
-        // Mocked coach names; replace with your actual data source
+        // coach naems, we'll use DB later on here
         return new String[]{"Ayad", "Ahmed", "Akam"};
     }
 

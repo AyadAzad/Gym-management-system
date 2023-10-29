@@ -43,15 +43,13 @@ public class paymentManager {
         panel.add(formPanel, BorderLayout.NORTH);
         panel.add(paymentScrollPane, BorderLayout.CENTER);
 
-        // Add an action listener for the submitPaymentButton to process payments
+            // action listener for the submitPaymentButton to process payments
         submitPaymentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String memberName = nameField.getText();
                 String membershipId = membershipIdField.getText();
                 String paymentAmount = amountField.getText();
-
-                // Perform validation and process the payment (you can add your logic here)
 
                 // Update the payment history table with the payment information
                 paymentTableModel.addRow(new Object[]{getCurrentDateTime(), memberName, paymentAmount});
