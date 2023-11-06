@@ -1,8 +1,3 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 /*
 @author : Ayad Azad Ali
 @subject: Application programming (Java Swing)

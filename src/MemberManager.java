@@ -2,9 +2,11 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Color;
 
 public class MemberManager {
 
@@ -12,7 +14,8 @@ public class MemberManager {
 
     public static JPanel createMembersPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-
+        panel.setOpaque(true);
+        panel.setBackground(Color.GREEN);
         // Creating a table model for members, later on we'll use Database for this purpose
         membersTableModel = new DefaultTableModel();
         membersTableModel.addColumn("Member ID");
@@ -24,11 +27,13 @@ public class MemberManager {
 
 
         JTable membersTable = new JTable(membersTableModel);
+        membersTable.setOpaque(true);
+        membersTable.setBackground(Color.yellow);
+
+        membersTable.setFont(new Font("ARAIL", Font.BOLD, 16));
         JScrollPane membersScrollPane = new JScrollPane(membersTable);
         membersTable.getTableHeader().setFont(new Font("ARAIL", Font.BOLD, 16));
         // Create buttons for removing, and editing members
-
-
         JButton removeMemberButton = new JButton("Remove Member");
         removeMemberButton.setFont(new Font("ARAIL", Font.BOLD, 16));
         JButton editMemberButton = new JButton("Edit Member");
@@ -46,6 +51,7 @@ public class MemberManager {
         panel.add(membersScrollPane, BorderLayout.CENTER);
         panel.add(buttonPanel, BorderLayout.SOUTH);
         panel.add(formPanel, BorderLayout.EAST);
+
 
         // Implementing action listeners for removeMemberButton and editMemberButton
         removeMemberButton.addActionListener(new ActionListener() {
@@ -84,7 +90,8 @@ public class MemberManager {
         gridBag.insets = new Insets(10,10,10,10);
 
         formPanel.setPreferredSize(new Dimension(400,300));
-
+//        A purple background
+        formPanel.setBackground(new Color(150,128,255));
         JLabel nameLabel = new JLabel("Name:");
         nameLabel.setHorizontalAlignment(JLabel.RIGHT);
         JTextField nameField = new JTextField();
@@ -108,7 +115,7 @@ public class MemberManager {
         contactLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
         contactField.setFont(new Font("ARAIL", Font.BOLD, 16));
 
-        JLabel periodLabel = new JLabel("Period:");
+        JLabel periodLabel = new JLabel("Period(days):");
         JTextField periodField = new JTextField();
         periodField.setPreferredSize(new Dimension(200,40));
         periodLabel.setHorizontalAlignment(JLabel.RIGHT);
@@ -164,6 +171,7 @@ public class MemberManager {
         gridBag.gridwidth = 3; // Span three columns
         formPanel.add(addButton, gridBag);
 
+
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -183,7 +191,6 @@ public class MemberManager {
 
         return formPanel;
     }
-
     private static void addMemberToTable(String name, String age, String contact, String period, String coach) {
         int memberId = membersTableModel.getRowCount() + 1;
         membersTableModel.addRow(new Object[]{memberId, name, age, contact, period, coach});
@@ -203,3 +210,4 @@ public class MemberManager {
     }
 
 }
+

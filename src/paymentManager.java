@@ -18,6 +18,14 @@ public class paymentManager {
         JTextField amountField = new JTextField(10);
         JButton submitPaymentButton = new JButton("Submit Payment");
 
+        nameLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        nameField.setFont(new Font("ARAIL", Font.BOLD, 16));
+        membershipIdLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        membershipIdField.setFont(new Font("ARAIL", Font.BOLD, 16));
+        amountLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        amountField.setFont(new Font("ARAIL", Font.BOLD, 16));
+        submitPaymentButton.setFont(new Font("ARAIL", Font.BOLD, 16));
+
         // Add form components to a panel
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(4, 2));
@@ -35,10 +43,11 @@ public class paymentManager {
         paymentTableModel.addColumn("Payment Date");
         paymentTableModel.addColumn("Member Name");
         paymentTableModel.addColumn("Payment Amount");
-
         JTable paymentTable = new JTable(paymentTableModel);
         JScrollPane paymentScrollPane = new JScrollPane(paymentTable);
-
+        paymentTable.setOpaque(true);
+        paymentTable.getTableHeader().setFont(new Font("ARAIL", Font.BOLD, 16));
+        paymentTable.setFont(new Font("ARAIL", Font.BOLD, 16));
         // Add the payment form and payment history table to the main panel
         panel.add(formPanel, BorderLayout.NORTH);
         panel.add(paymentScrollPane, BorderLayout.CENTER);

@@ -23,7 +23,12 @@ public class CoachManager {
         // buttons for  removing, and editing coaches
         JButton removeCoachButton = new JButton("Remove Coach");
         JButton editCoachButton = new JButton("Edit Coach");
-
+        // design
+        coachesTable.getTableHeader().setFont(new Font("ARAIL", Font.BOLD, 16));
+        removeCoachButton.setFont(new Font("ARAIL", Font.BOLD, 16));
+        editCoachButton.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coachesTable.setOpaque(true);
+        coachesTable.setFont(new Font("ARAIL", Font.BOLD, 16));
         // Add buttons to a panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(removeCoachButton);
@@ -71,10 +76,12 @@ public class CoachManager {
 //        formPanel.setLayout(new GridLayout(2, 2));
 
         JLabel nameLabel = new JLabel("Name:");
+        nameLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
         JTextField nameField = new JTextField();
+        nameField.setFont(new Font("ARAIL", Font.BOLD, 16));
         nameField.setPreferredSize(new Dimension(200,40));
         JButton addButton = new JButton("Add Coach");
-
+        addButton.setFont(new Font("ARAIL", Font.BOLD, 16));
 
         formPanel.add(nameLabel);
         formPanel.add(nameField);
