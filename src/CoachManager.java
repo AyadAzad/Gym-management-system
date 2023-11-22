@@ -3,8 +3,17 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class CoachManager {
+    private static JLabel coach_nameLabel;
+    private static JLabel coach_ageLabel;
+    private static JLabel coach_emailLabel;
+    private static JLabel coach_contactNoLabel;
+    protected static JTextField coach_nameField;
+    private static JTextField coach_ageField;
+    private static JTextField coach_emailField;
+    private static JTextField coach_contactNoField;
 
     private static DefaultTableModel coachesTableModel;
     private static JTable coachesTable;
@@ -16,6 +25,9 @@ public class CoachManager {
         coachesTableModel = new DefaultTableModel();
         coachesTableModel.addColumn("Coach ID");
         coachesTableModel.addColumn("Name");
+        coachesTableModel.addColumn("Age");
+        coachesTableModel.addColumn("Email");
+        coachesTableModel.addColumn("Contact NO");
 
         coachesTable = new JTable(coachesTableModel);
         JScrollPane coachesScrollPane = new JScrollPane(coachesTable);
@@ -42,7 +54,7 @@ public class CoachManager {
         panel.add(buttonPanel, BorderLayout.SOUTH);
         panel.add(formPanel, BorderLayout.EAST);
 
-        // Implement action listeners for removeCoachButton and editCoachButton
+
         removeCoachButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -70,84 +82,255 @@ public class CoachManager {
 
         return panel;
     }
+    private static void fetchCoachesData() {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gym_management", "root","Ayad12345");
+            String query = "SELECT * FROM coaches";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int memberId = resultSet.getInt("coach_id");
+                        String name = resultSet.getString("name");
+                        int age = resultSet.getInt("age");
+                        String email = resultSet.getString("email");
+                        int contactNO = resultSet.getInt("contactNO");
+                        coachesTableModel.addRow(new Object[]{memberId,name, age, email, contactNO});
+                        // Add data to the table model
 
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    // to add data
+    private static void addCoach(String name, String age, String email, String contactNO) {
+        // Add coach to the table model
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gym_management", "root","Ayad12345");
+            String query = "INSERT INTO coaches (name, age, email, contactNO) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, name);
+                preparedStatement.setInt(2, Integer.parseInt(age));
+                preparedStatement.setString(3, email);
+                preparedStatement.setInt(4, Integer.parseInt(contactNO));
+                preparedStatement.executeUpdate();
+
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
     private static JPanel createCoachFormPanel() {
         JPanel formPanel = new JPanel();
-//        formPanel.setLayout(new GridLayout(2, 2));
+        formPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gridBag = new GridBagConstraints();
+        gridBag.fill = GridBagConstraints.HORIZONTAL;
+        gridBag.insets = new Insets(10,10,10,10);
 
-        JLabel nameLabel = new JLabel("Name:");
-        nameLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
-        JTextField nameField = new JTextField();
-        nameField.setFont(new Font("ARAIL", Font.BOLD, 16));
-        nameField.setPreferredSize(new Dimension(200,40));
+        coach_nameLabel = new JLabel("Name:");
+        coach_nameField = new JTextField();
+        coach_nameLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coach_nameField.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coach_nameField.setPreferredSize(new Dimension(200,40));
+
+        coach_ageLabel = new JLabel("Age:");
+        coach_ageLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coach_ageField = new JTextField();
+        coach_ageField.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coach_ageField.setPreferredSize(new Dimension(200,40));
+
+        coach_emailLabel = new JLabel("Email:");
+        coach_emailLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coach_emailField = new JTextField();
+        coach_emailField.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coach_emailField.setPreferredSize(new Dimension(200,40));
+
+        coach_contactNoLabel = new JLabel("ContactNO:");
+        coach_contactNoLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coach_contactNoField = new JTextField();
+        coach_contactNoField.setPreferredSize(new Dimension(200,40));
+        coach_contactNoField.setFont(new Font("ARAIL", Font.BOLD, 16));
+
+
         JButton addButton = new JButton("Add Coach");
         addButton.setFont(new Font("ARAIL", Font.BOLD, 16));
 
-        formPanel.add(nameLabel);
-        formPanel.add(nameField);
-        formPanel.add(new JLabel()); // Empty space
-        formPanel.add(addButton);
 
+
+        gridBag.gridx = 0;
+        gridBag.gridy = 0;
+        formPanel.add(coach_nameLabel, gridBag);
+
+        gridBag.gridy = 1;
+        formPanel.add(coach_ageLabel, gridBag);
+
+        gridBag.gridy = 2;
+        formPanel.add(coach_emailLabel, gridBag);
+
+        gridBag.gridy = 3;
+        formPanel.add(coach_contactNoLabel, gridBag);
+
+
+        gridBag.gridx = 1;
+        gridBag.gridy = 0;
+        gridBag.gridwidth = 2; // Span two columns
+        formPanel.add(coach_nameField, gridBag);
+
+        gridBag.gridy = 1;
+        formPanel.add(coach_ageField, gridBag);
+
+        gridBag.gridy = 2;
+        formPanel.add(coach_emailField, gridBag);
+
+        gridBag.gridy = 3;
+        formPanel.add(coach_contactNoField, gridBag);
+
+        gridBag.gridy = 4;
+        gridBag.gridwidth = 3; // Span three columns
+        formPanel.add(addButton, gridBag);
+
+        fetchCoachesData();
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addCoach(nameField.getText());
-                nameField.setText(""); // Clear the name field after adding
+                String coach_name = coach_nameField.getText();
+                String coach_age = coach_ageField.getText();
+                String email = coach_emailField.getText();
+                String contactNo = coach_contactNoField.getText();
+               if (coach_name.isEmpty() | coach_age.isEmpty() |
+               email.isEmpty() | contactNo.isEmpty()){
+                   JOptionPane.showMessageDialog(null, "all fields must be filled");
+               }
+               else{
+                   addCoach(coach_name, coach_age, email, contactNo);
+
+               }
             }
         });
-
         return formPanel;
     }
 
-    private static void addCoach(String name) {
-        // Add coach to the table model
-        coachesTableModel.addRow(new Object[]{getNewCoachID(), name});
-    }
+
+
+
+
 
     private static void editCoach(int rowIndex, String currentName) {
         //JFrame for editing coaches
         JFrame editCoachFrame = new JFrame("Edit Coach");
         editCoachFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        editCoachFrame.setSize(400, 200);
+        editCoachFrame.setSize(600, 600);
+
 
         //text fields and labels for coach details
-        JTextField nameField = new JTextField(currentName, 20);
+
         JButton saveButton = new JButton("Save Changes");
 
         //panel to hold the form components
-        JPanel formPanel = new JPanel();
-        formPanel.setLayout(new GridLayout(3, 2));
-        formPanel.add(new JLabel("Name:"));
-        formPanel.add(nameField);
-        formPanel.add(new JLabel()); // Empty space
-        formPanel.add(saveButton);
+        JPanel edit_coach_formPanel = new JPanel();
+        edit_coach_formPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gridBag = new GridBagConstraints();
+        gridBag.fill = GridBagConstraints.HORIZONTAL;
+        gridBag.insets = new Insets(10,10,10,10);
+
+        coach_nameLabel = new JLabel("Name:");
+        coach_nameField = new JTextField();
+        coach_nameLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coach_nameField.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coach_nameField.setPreferredSize(new Dimension(200,40));
+
+        coach_ageLabel = new JLabel("Age:");
+        coach_ageLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coach_ageField = new JTextField();
+        coach_ageField.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coach_ageField.setPreferredSize(new Dimension(200,40));
+
+        coach_emailLabel = new JLabel("Email:");
+        coach_emailLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coach_emailField = new JTextField();
+        coach_emailField.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coach_emailField.setPreferredSize(new Dimension(200,40));
+
+        coach_contactNoLabel = new JLabel("ContactNO:");
+        coach_contactNoLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
+        coach_contactNoField = new JTextField();
+        coach_contactNoField.setPreferredSize(new Dimension(200,40));
+        coach_contactNoField.setFont(new Font("ARAIL", Font.BOLD, 16));
+
+
+        JButton addButton = new JButton("Add Coach");
+        addButton.setFont(new Font("ARAIL", Font.BOLD, 16));
+
+
+
+        gridBag.gridx = 0;
+        gridBag.gridy = 0;
+        edit_coach_formPanel.add(coach_nameLabel, gridBag);
+
+        gridBag.gridy = 1;
+        edit_coach_formPanel.add(coach_ageLabel, gridBag);
+
+        gridBag.gridy = 2;
+        edit_coach_formPanel.add(coach_emailLabel, gridBag);
+
+        gridBag.gridy = 3;
+        edit_coach_formPanel.add(coach_contactNoLabel, gridBag);
+
+
+        gridBag.gridx = 1;
+        gridBag.gridy = 0;
+        gridBag.gridwidth = 2; // Span two columns
+        edit_coach_formPanel.add(coach_nameField, gridBag);
+
+        gridBag.gridy = 1;
+        edit_coach_formPanel.add(coach_ageField, gridBag);
+
+        gridBag.gridy = 2;
+        edit_coach_formPanel.add(coach_emailField, gridBag);
+
+        gridBag.gridy = 3;
+        edit_coach_formPanel.add(coach_contactNoField, gridBag);
+
+        gridBag.gridy = 4;
+        gridBag.gridwidth = 3; // Span three columns
+        edit_coach_formPanel.add(saveButton, gridBag);
 
         // an action listener for the "Save Changes" button
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Get the updated coach details from the input field
-                String updatedName = nameField.getText();
+                 String updatedName = coach_nameField.getText();
+                 String updatedAge = coach_ageField.getText();
+                 String updatedEmail = coach_emailField.getText();
+                 String updatedContactNo = coach_contactNoField.getText();
 
                 // Update the coach's details in the table model
                 coachesTableModel.setValueAt(updatedName, rowIndex, 1);
+                coachesTableModel.setValueAt(updatedAge, rowIndex, 2);
+                coachesTableModel.setValueAt(updatedEmail, rowIndex, 3);
+                coachesTableModel.setValueAt(updatedContactNo, rowIndex, 4);
 
                 // Close the edit coach window
                 editCoachFrame.dispose();
             }
         });
 
-        editCoachFrame.add(formPanel);
+        editCoachFrame.add(edit_coach_formPanel);
         editCoachFrame.setVisible(true);
     }
 
     // A mock method to generate a new coach ID
+
     private static int getNewCoachID() {
         // Implement logic to generate a new unique coach ID
         return coachesTableModel.getRowCount() + 1;
     }
 
-    private static void openAddCoachForm() {
-        // Implement logic to open the add coach form here (if needed)
-    }
 }

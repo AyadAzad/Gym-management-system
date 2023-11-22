@@ -4,14 +4,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class paymentManager {
+public class paymentManager extends MemberManager{
+
 
     public static JPanel createPaymentPanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
         // Create a form for making payments
         JLabel nameLabel = new JLabel("Member Name:");
-        JTextField nameField = new JTextField(20);
+        JTextField payment_nameField = new JTextField(20);
         JLabel membershipIdLabel = new JLabel("Membership ID:");
         JTextField membershipIdField = new JTextField(10);
         JLabel amountLabel = new JLabel("Payment Amount:");
@@ -19,7 +20,7 @@ public class paymentManager {
         JButton submitPaymentButton = new JButton("Submit Payment");
 
         nameLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
-        nameField.setFont(new Font("ARAIL", Font.BOLD, 16));
+        payment_nameField.setFont(new Font("ARAIL", Font.BOLD, 16));
         membershipIdLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
         membershipIdField.setFont(new Font("ARAIL", Font.BOLD, 16));
         amountLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
@@ -30,7 +31,7 @@ public class paymentManager {
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(4, 2));
         formPanel.add(nameLabel);
-        formPanel.add(nameField);
+        formPanel.add(payment_nameField);
         formPanel.add(membershipIdLabel);
         formPanel.add(membershipIdField);
         formPanel.add(amountLabel);
@@ -56,17 +57,13 @@ public class paymentManager {
         submitPaymentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String memberName = nameField.getText();
+                String memberName = payment_nameField.getText();
                 String membershipId = membershipIdField.getText();
                 String paymentAmount = amountField.getText();
+//                String whoWantsToPay = MemberManager.nameField.getText();
+//                System.out.println(whoWantsToPay);
 
-                // Update the payment history table with the payment information
-                paymentTableModel.addRow(new Object[]{getCurrentDateTime(), memberName, paymentAmount});
 
-                // Clear the input fields after processing the payment
-                nameField.setText("");
-                membershipIdField.setText("");
-                amountField.setText("");
             }
         });
 

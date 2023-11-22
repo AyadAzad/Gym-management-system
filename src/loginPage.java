@@ -96,6 +96,7 @@ public class loginPage extends JFrame{
                     frame.dispose(); // Close the login window
                     mainWindow main_window = new mainWindow();
 
+
                 } else {
                     JOptionPane.showMessageDialog(frame, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
                 }
