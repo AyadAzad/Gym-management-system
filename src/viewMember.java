@@ -1,19 +1,27 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class viewMember extends JFrame{
+public class viewMember extends JFrame {
 
     protected static DefaultTableModel membersTableModel;
+    protected static JTable membersTable;
+
     public viewMember() {
         setTitle("View Member Form");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 400);
+        setSize(800, 600);
         setLocationRelativeTo(null); // Center the frame on the screen
 
         JPanel formPanel = createMembersPanel();
-        getContentPane().add(formPanel);
+        JPanel buttonPanel = createButtonPanel(); // Add the button panel
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(formPanel, BorderLayout.CENTER);
+        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
         // Set the frame visible
         setVisible(true);
@@ -21,8 +29,10 @@ public class viewMember extends JFrame{
     }
 
     public static JPanel createMembersPanel() {
-        JPanel formpanel = new JPanel(new BorderLayout());
-        formpanel.setOpaque(true);
+        JPanel formPanel = new JPanel(new BorderLayout());
+        formPanel.setOpaque(true);
+        formPanel.setBackground(new Color(250, 250, 250)); // Light Gray
+
         // Creating a table model for members, later on we'll use Database for this purpose
         membersTableModel = new DefaultTableModel();
         membersTableModel.addColumn("Member ID");
@@ -32,22 +42,29 @@ public class viewMember extends JFrame{
         membersTableModel.addColumn("Period");
         membersTableModel.addColumn("Coach");
 
-
-        JTable membersTable = new JTable(membersTableModel);
+        membersTable = new JTable(membersTableModel);
         membersTable.setOpaque(true);
-        membersTable.setBackground(Color.black);
-        membersTable.setForeground(Color.white);
+        membersTable.setBackground(new Color(255, 255, 255)); // White
+        membersTable.setForeground(new Color(33, 33, 33)); // Dark Gray
 
-        membersTable.setFont(new Font("ARAIL", Font.BOLD, 16));
+        membersTable.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        membersTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 18));
+        membersTable.getTableHeader().setBackground(new Color(34, 167, 240)); // Blue
+        membersTable.getTableHeader().setForeground(Color.WHITE);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        membersTable.setDefaultRenderer(Object.class, centerRenderer);
+
         JScrollPane membersScrollPane = new JScrollPane(membersTable);
-        membersTable.getTableHeader().setFont(new Font("ARAIL", Font.BOLD, 16));
+        membersScrollPane.getViewport().setBackground(new Color(250, 250, 250)); // Light Gray
 
-        formpanel.add(membersScrollPane, BorderLayout.CENTER);
+        formPanel.add(membersScrollPane, BorderLayout.CENTER);
 
-        return formpanel;
-
+        return formPanel;
     }
-    private static void fetchData() {
+
+    protected static void fetchData() {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gym_management", "root", "Ayad12345");
             String query = "SELECT * FROM members";
@@ -62,7 +79,6 @@ public class viewMember extends JFrame{
                         String coach = resultSet.getString("coach");
                         membersTableModel.addRow(new Object[]{memberId, name, age, contact, period, coach});
                         // Add data to the table model
-
                     }
                 }
             }
@@ -71,4 +87,25 @@ public class viewMember extends JFrame{
         }
     }
 
+    private JPanel createButtonPanel() {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(250, 250, 250));
+
+        JButton returnButton = new JButton("Return to Main");
+        returnButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        returnButton.setBackground(new Color(46, 204, 113)); // Green
+        returnButton.setForeground(Color.WHITE);
+        returnButton.setFocusPainted(false);
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new mainWindow();
+            }
+        });
+
+        buttonPanel.add(returnButton);
+
+        return buttonPanel;
+    }
 }

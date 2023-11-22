@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,14 +6,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class addMember extends JFrame{
-    public static JTextField nameField;
+public class addMember extends JFrame {
+    private JTextField nameField;
+    private JTextField ageField;
+    private JTextField contactField;
+    private JTextField periodField;
+    private JComboBox<String> coachComboBox;
 
     public addMember() {
         setTitle("Add Member Form");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 400);
-        setLocationRelativeTo(null); // Center the frame on the screen
+        setSize(800, 500);
+        setLocationRelativeTo(null);
 
         JPanel formPanel = createMemberFormPanel();
         getContentPane().add(formPanel);
@@ -22,7 +25,8 @@ public class addMember extends JFrame{
         // Set the frame visible
         setVisible(true);
     }
-    public static JPanel createMemberFormPanel() {
+
+    private JPanel createMemberFormPanel() {
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new GridBagLayout());
         GridBagConstraints gridBag = new GridBagConstraints();
@@ -30,123 +34,139 @@ public class addMember extends JFrame{
         gridBag.insets = new Insets(10, 10, 10, 10);
 
         formPanel.setPreferredSize(new Dimension(400, 300));
+        formPanel.setBackground(new Color(44, 62, 80)); // Dark Blue
 
-        formPanel.setBackground(new Color(0, 0, 0));
+        JLabel[] labels = {
+                new JLabel("Name:"),
+                new JLabel("Age:"),
+                new JLabel("Contact Number:"),
+                new JLabel("Period(days):"),
+                new JLabel("Coach:")
+        };
 
-        JLabel nameLabel = new JLabel("Name:");
-        nameLabel.setForeground(Color.WHITE);
-        nameLabel.setHorizontalAlignment(JLabel.RIGHT);
-        nameField = new JTextField();
-        nameField.setPreferredSize(new Dimension(200, 40));
-        nameLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
-        nameField.setFont(new Font("ARAIL", Font.BOLD, 16));
+        for (JLabel label : labels) {
+            label.setForeground(Color.WHITE);
+            label.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        }
 
+        nameField = createFormattedTextField();
+        ageField = createFormattedTextField();
+        contactField = createFormattedTextField();
+        periodField = createFormattedTextField();
+        coachComboBox = new JComboBox<>();
 
-        JLabel ageLabel = new JLabel("Age:");
-        ageLabel.setForeground(Color.WHITE);
-        JTextField ageField = new JTextField();
-        ageField.setPreferredSize(new Dimension(200, 40));
-        ageLabel.setHorizontalAlignment(JLabel.RIGHT);
-        ageLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
-        ageField.setFont(new Font("ARAIL", Font.BOLD, 16));
-
-        JLabel contactLabel = new JLabel("Contact Number:");
-        contactLabel.setForeground(Color.WHITE);
-        JTextField contactField = new JTextField();
-        contactField.setPreferredSize(new Dimension(200, 40));
-        contactLabel.setHorizontalAlignment(JLabel.RIGHT);
-        contactLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
-        contactField.setFont(new Font("ARAIL", Font.BOLD, 16));
-
-        JLabel periodLabel = new JLabel("Period(days):");
-        periodLabel.setForeground(Color.WHITE);
-        JTextField periodField = new JTextField();
-        periodField.setPreferredSize(new Dimension(200, 40));
-        periodLabel.setHorizontalAlignment(JLabel.RIGHT);
-        periodLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
-        periodField.setFont(new Font("ARAIL", Font.BOLD, 16));
-
-        JLabel coachLabel = new JLabel("Coach:");
-        coachLabel.setForeground(Color.WHITE);
-        JComboBox<String> coachComboBox = new JComboBox<String>();
         List<String> coachNames = getCoachNames();
-        for (String coachName: coachNames){
+        for (String coachName : coachNames) {
             coachComboBox.addItem(coachName);
         }
-        coachLabel.setHorizontalAlignment(JLabel.RIGHT);
-        coachLabel.setFont(new Font("ARAIL", Font.BOLD, 16));
-        coachComboBox.setFont(new Font("ARAIL", Font.BOLD, 16));
+
+        coachComboBox.setPreferredSize(new Dimension(250, 40)); // Adjust width and height
+        coachComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        coachComboBox.setBackground(new Color(108, 122, 137));
+        coachComboBox.setForeground(Color.WHITE);
+        coachComboBox.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(52, 152, 219), 2),
+                BorderFactory.createEmptyBorder(5, 0, 5, 0)
+        ));
 
         JButton addButton = new JButton("Add Member");
-        addButton.setFont(new Font("ARAIL", Font.BOLD, 16));
-        addButton.setBackground(new Color(0, 200, 20));
-        addButton.setBorder(new LineBorder(Color.BLACK, 2, true));
+        addButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        addButton.setBackground(new Color(34, 167, 240));
+        addButton.setForeground(Color.WHITE);
+        addButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-        // grid style for the fields
-        gridBag.gridx = 0;
+        JButton returnButton = new JButton("Return to Main");
+        returnButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        returnButton.setBackground(new Color(192, 57, 43));
+        returnButton.setForeground(Color.WHITE);
+        returnButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Add logic to return to the main frame
+                dispose(); // Close the current frame
+                new mainWindow(); // Open the main frame
+            }
+        });
+
         gridBag.gridy = 0;
-        formPanel.add(nameLabel, gridBag);
+        addToFormPanel(formPanel, labels[0], nameField, gridBag, 0, 0);
 
         gridBag.gridy = 1;
-        formPanel.add(ageLabel, gridBag);
+        addToFormPanel(formPanel, labels[1], ageField, gridBag, 0, 1);
 
         gridBag.gridy = 2;
-        formPanel.add(contactLabel, gridBag);
+        addToFormPanel(formPanel, labels[2], contactField, gridBag, 0, 2);
 
         gridBag.gridy = 3;
-        formPanel.add(periodLabel, gridBag);
+        addToFormPanel(formPanel, labels[3], periodField, gridBag, 0, 3);
 
         gridBag.gridy = 4;
-        formPanel.add(coachLabel, gridBag);
-
-        gridBag.gridx = 1;
-        gridBag.gridy = 0;
-        gridBag.gridwidth = 2; // Span two columns
-        formPanel.add(nameField, gridBag);
-
-        gridBag.gridy = 1;
-        formPanel.add(ageField, gridBag);
-
-        gridBag.gridy = 2;
-        formPanel.add(contactField, gridBag);
-
-        gridBag.gridy = 3;
-        formPanel.add(periodField, gridBag);
-
-        gridBag.gridy = 4;
-        formPanel.add(coachComboBox, gridBag);
+        addToFormPanel(formPanel, labels[4], coachComboBox, gridBag, 0, 4);
 
         gridBag.gridy = 5;
-        gridBag.gridwidth = 3; // Span three columns
-        formPanel.add(addButton, gridBag);
-        // to fetch data
+        addToFormPanel(formPanel, new JLabel(), addButton, gridBag, 0, 5);
 
+        gridBag.gridy = 6;
+        addToFormPanel(formPanel, new JLabel(), returnButton, gridBag, 0, 6);
 
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = nameField.getText();
-                String age = ageField.getText();
-                String contact = contactField.getText();
-                String period = periodField.getText();
-                String selectedCoach = (String) coachComboBox.getSelectedItem();
-
-                // to Add member to the table
-                if (name.isEmpty() | age.isEmpty() | contact.isEmpty() | period.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "all fields must be filled");
-                } else {
-                    addMemberToTable(name, age, contact, period, selectedCoach);
-
-
-                }
-
+                addMemberToTable();
             }
         });
 
         return formPanel;
     }
 
-    private static void addMemberToTable(String name, String age, String contact, String period, String coach) {
+    private JTextField createFormattedTextField() {
+        JTextField textField = new JTextField();
+        textField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        textField.setBackground(new Color(108, 122, 137));
+        textField.setForeground(Color.WHITE);
+        textField.setPreferredSize(new Dimension(200, 40));
+        textField.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(52, 152, 219), 2),
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        return textField;
+    }
+
+    private void addToFormPanel(JPanel formPanel, JLabel label, JComponent component,
+                                GridBagConstraints gridBag, int x, int y) {
+        addToFormPanel(formPanel, label, component, gridBag, x, y, 1, 1);
+    }
+
+    private void addToFormPanel(JPanel formPanel, JLabel label, JComponent component,
+                                GridBagConstraints gridBag, int x, int y, int width, int height) {
+        gridBag.gridx = x;
+        gridBag.gridy = y;
+        gridBag.gridwidth = width;
+        gridBag.gridheight = height;
+        formPanel.add(label, gridBag);
+
+        gridBag.gridx = x + width;
+        gridBag.gridwidth = 1;
+        formPanel.add(component, gridBag);
+    }
+
+    private void addMemberToTable() {
+        String name = nameField.getText();
+        String age = ageField.getText();
+        String contact = contactField.getText();
+        String period = periodField.getText();
+        String selectedCoach = (String) coachComboBox.getSelectedItem();
+
+        if (name.isEmpty() || age.isEmpty() || contact.isEmpty() || period.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "All fields must be filled");
+        } else {
+            addMemberToTable(name, age, contact, period, selectedCoach);
+        }
+    }
+
+    private void addMemberToTable(String name, String age, String contact, String period, String coach) {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gym_management", "root", "Ayad12345");
             String query = "INSERT INTO members (name, age, contact_number, period, coach) VALUES (?, ?, ?, ?, ?)";
@@ -157,17 +177,15 @@ public class addMember extends JFrame{
                 preparedStatement.setInt(4, Integer.parseInt(period));
                 preparedStatement.setString(5, coach);
                 preparedStatement.executeUpdate();
-
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
-    private static List<String> getCoachNames() {
-        // coach naems, we'll use DB later on here
+
+    private List<String> getCoachNames() {
         ArrayList<String> coachNames = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gym_management", "root", "Ayad12345")) {
@@ -185,6 +203,5 @@ public class addMember extends JFrame{
             e.printStackTrace();
         }
         return coachNames;
-
     }
 }

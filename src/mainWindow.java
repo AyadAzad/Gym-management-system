@@ -1,102 +1,103 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class mainWindow extends JFrame{
+public class mainWindow extends JFrame {
+
     public mainWindow() {
         setTitle("Gym Management System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
-        setLocationRelativeTo(null); // Center the frame on the screen
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
         setVisible(true);
 
-        // Create a container panel with BorderLayout
         JPanel containerPanel = new JPanel(new BorderLayout());
         add(containerPanel);
 
-        // Create a panel for the buttons with GridLayout
-        JPanel buttonPanel = new JPanel(new GridLayout(3, 3, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 3, 20, 20));
         containerPanel.add(buttonPanel, BorderLayout.CENTER);
+        buttonPanel.setBackground(new Color(32, 47, 90)); // Deep Blue
 
-        ImageIcon addMember = new ImageIcon("image/add.png");
-        // Create buttons for each section
-        JButton addMemberButton = new JButton(addMember);
-        JButton removeMemberButton = new JButton("Remove Member");
-        JButton viewMembersButton = new JButton("View Members");
-        JButton addCoachButton = new JButton("Add Coach");
-        JButton removeCoachButton = new JButton("Remove Coach");
-        JButton viewCoachesButton = new JButton("View Coaches");
-        JButton paymentButton = new JButton("Payment");
-
-        addMemberButton.setBorderPainted(false);
-        addMemberButton.setContentAreaFilled(false);
-
-        // Apply common styling
-        Font buttonFont = new Font("Arial", Font.PLAIN, 22);
-        addMemberButton.setFont(buttonFont);
-        removeMemberButton.setFont(buttonFont);
-        viewMembersButton.setFont(buttonFont);
-        addCoachButton.setFont(buttonFont);
-        removeCoachButton.setFont(buttonFont);
-        viewCoachesButton.setFont(buttonFont);
-        paymentButton.setFont(buttonFont);
-
-        addMemberButton.setBorderPainted(false);
-        removeMemberButton.setBorderPainted(false);
-        viewMembersButton.setBorderPainted(false);
-        addCoachButton.setBorderPainted(false);
-        removeCoachButton.setBorderPainted(false);
-        viewCoachesButton.setBorderPainted(false);
-        paymentButton.setBorderPainted(false);
-
-        addMemberButton.setBackground(Color.GREEN);
-        removeMemberButton.setBackground(Color.GREEN);
-        viewMembersButton.setBackground(Color.GREEN);
-        addCoachButton.setBackground(Color.GREEN);
-        removeCoachButton.setBackground(Color.GREEN);
-        viewCoachesButton.setBackground(Color.GREEN);
-        paymentButton.setBackground(Color.GREEN);
-
-
-
-
+        // Create buttons with text
+        JButton addMemberButton = createStyledButton("Add Member", new Color(46, 134, 193)); // Blue
+        JButton removeMemberButton = createStyledButton("Remove Member", new Color(242, 121, 63)); // Orange
+        JButton viewMembersButton = createStyledButton("View Members", new Color(76, 189, 111)); // Green
+        JButton addCoachButton = createStyledButton("Add Coach", new Color(193, 89, 46)); // Red-Orange
+        JButton removeCoachButton = createStyledButton("Remove Coach", new Color(121, 63, 242)); // Purple
+        JButton viewCoachesButton = createStyledButton("View Coaches", new Color(219, 200, 57)); // Yellow
+        JButton paymentButton = createStyledButton("Payment", new Color(78, 121, 193)); // Blue
 
         // Add buttons to the button panel
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        buttonPanel.setBorder(new EmptyBorder(50,50,50,50));
-        buttonPanel.add(addMemberButton, gbc);
-        buttonPanel.add(removeMemberButton, gbc);
-        buttonPanel.add(viewMembersButton, gbc);
-        buttonPanel.add(addCoachButton, gbc);
-        buttonPanel.add(removeCoachButton, gbc);
-        buttonPanel.add(viewCoachesButton, gbc);
-        buttonPanel.add(paymentButton, gbc);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+        buttonPanel.add(addMemberButton);
+        buttonPanel.add(removeMemberButton);
+        buttonPanel.add(viewMembersButton);
+        buttonPanel.add(addCoachButton);
+        buttonPanel.add(removeCoachButton);
+        buttonPanel.add(viewCoachesButton);
+        buttonPanel.add(paymentButton);
 
-
+        // ActionListeners
         addMemberButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addMember add_member = new addMember();
-
-            }
-        });
-        addMemberButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                addMemberButton.setBackground(Color.CYAN); // Change background color on mouse hover
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                addMemberButton.setBackground(Color.GREEN); // Change background color when mouse exits
+                dispose();
+                new addMember();
             }
         });
         viewMembersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewMember show_members = new viewMember();
+                dispose();
+                new viewMember();
             }
         });
+        removeMemberButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new removeMember();
+            }
+        });
+
+        // Improved hover effect for all buttons
+        styleButton(addMemberButton);
+        styleButton(removeMemberButton);
+        styleButton(viewMembersButton);
+        styleButton(addCoachButton);
+        styleButton(removeCoachButton);
+        styleButton(viewCoachesButton);
+        styleButton(paymentButton);
     }
+
+    private JButton createStyledButton(String text, Color backgroundColor) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        button.setForeground(Color.WHITE);
+        button.setBackground(backgroundColor);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return button;
+    }
+
+    private void styleButton(JButton button) {
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(false);
+        button.setOpaque(true);
+        button.setBorderPainted(false);
+
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setFont(new Font("Segoe UI", Font.BOLD, 22));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            }
+
+
+        });
+    }
+
+
 }
