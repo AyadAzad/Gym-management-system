@@ -61,6 +61,34 @@ public class mainWindow extends JFrame {
                 new removeMember();
             }
         });
+        addCoachButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new addCoach();
+            }
+        });
+        viewCoachesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new viewCoach();
+            }
+        });
+        removeCoachButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new removeCoach();
+            }
+        });
+        paymentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new paymentManager();
+            }
+        });
 
         // Improved hover effect for all buttons
         styleButton(addMemberButton);

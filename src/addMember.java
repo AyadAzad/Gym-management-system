@@ -163,7 +163,14 @@ public class addMember extends JFrame {
             JOptionPane.showMessageDialog(null, "All fields must be filled");
         } else {
             addMemberToTable(name, age, contact, period, selectedCoach);
+            JOptionPane.showMessageDialog(null, "member added successfully");
+            nameField.setText("");
+            ageField.setText("");
+            contactField.setText("");
+            periodField.setText("");
         }
+
+
     }
 
     private void addMemberToTable(String name, String age, String contact, String period, String coach) {
