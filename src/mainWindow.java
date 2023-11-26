@@ -27,7 +27,8 @@ public class mainWindow extends JFrame {
         JButton addCoachButton = createStyledButton("Add Coach", new Color(193, 89, 46)); // Red-Orange
         JButton removeCoachButton = createStyledButton("Remove Coach", new Color(121, 63, 242)); // Purple
         JButton viewCoachesButton = createStyledButton("View Coaches", new Color(219, 200, 57)); // Yellow
-        JButton paymentButton = createStyledButton("Payment", new Color(78, 121, 193)); // Blue
+        JButton paymentFormButton = createStyledButton("Payment Form", new Color(78, 121, 193)); // Blue
+        JButton paymentManagerButton = createStyledButton("Payment manager", new Color(226, 86, 208)); // Blue
 
         // Add buttons to the button panel
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
@@ -37,7 +38,8 @@ public class mainWindow extends JFrame {
         buttonPanel.add(addCoachButton);
         buttonPanel.add(removeCoachButton);
         buttonPanel.add(viewCoachesButton);
-        buttonPanel.add(paymentButton);
+        buttonPanel.add(paymentFormButton);
+        buttonPanel.add(paymentManagerButton);
 
         // ActionListeners
         addMemberButton.addActionListener(new ActionListener() {
@@ -82,7 +84,14 @@ public class mainWindow extends JFrame {
                 new removeCoach();
             }
         });
-        paymentButton.addActionListener(new ActionListener() {
+        paymentFormButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new PaymentForm();
+            }
+        });
+        paymentManagerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
@@ -97,7 +106,8 @@ public class mainWindow extends JFrame {
         styleButton(addCoachButton);
         styleButton(removeCoachButton);
         styleButton(viewCoachesButton);
-        styleButton(paymentButton);
+        styleButton(paymentFormButton);
+        styleButton(paymentManagerButton);
     }
 
     private JButton createStyledButton(String text, Color backgroundColor) {

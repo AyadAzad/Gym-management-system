@@ -27,7 +27,7 @@ public class addCoach extends JFrame {
         setVisible(true);
     }
 
-    private static void addCoach(String name, String age, String email, String contactNO) {
+    private static void addCoachs(String name, String age, String email, String contactNO) {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gym_management", "root", "Ayad12345");
             String query = "INSERT INTO coaches (name, age, email, contactNO) VALUES (?, ?, ?, ?)";
@@ -85,7 +85,7 @@ public class addCoach extends JFrame {
                         email.isEmpty() || contactNo.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "All fields must be filled");
                 } else {
-                    addCoach(coachName, coachAge, email, contactNo);
+                    addCoachs(coachName, coachAge, email, contactNo);
                     JOptionPane.showMessageDialog(null, "Coach added successfully!");
                 }
             }
@@ -94,7 +94,7 @@ public class addCoach extends JFrame {
         JButton backButton = new JButton("Back");
         backButton.setFont(new Font("Arial", Font.BOLD, 16));
         backButton.setBackground(new Color(192, 57, 43)); // Dark red
-        backButton.setForeground(Color.WHITE);
+        backButton.setForeground(Color.white);
         backButton.setFocusPainted(false);
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -146,7 +146,7 @@ public class addCoach extends JFrame {
         label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         label.setForeground(Color.WHITE);
         field.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        field.setForeground(Color.WHITE);
+        field.setForeground(Color.BLACK);
         field.setPreferredSize(new Dimension(200, 40));
         field.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(52, 152, 219), 2),

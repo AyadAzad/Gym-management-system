@@ -29,7 +29,6 @@ public class removeMember extends viewMember {
         formPanel.add(removeButton, BorderLayout.SOUTH);
 
         getContentPane().add(formPanel);
-        fetchData();
     }
 
     protected void removeSelectedMembers() {

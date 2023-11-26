@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class viewCoach extends JFrame {
-    private static DefaultTableModel coachesTableModel;
-    private static JTable coachesTable;
+    protected static DefaultTableModel coachesTableModel;
+    protected static JTable coachesTable;
 
     public viewCoach() {
         setTitle("View Coach Form");
@@ -69,7 +69,7 @@ public class viewCoach extends JFrame {
         return coachesTableModel.getRowCount() + 1;
     }
 
-    private static void fetchCoachesData() {
+    protected static void fetchCoachesData() {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gym_management", "root", "Ayad12345");
             String query = "SELECT * FROM coaches";

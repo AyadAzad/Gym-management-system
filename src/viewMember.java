@@ -35,12 +35,13 @@ public class viewMember extends JFrame {
 
         // Creating a table model for members, later on we'll use Database for this purpose
         membersTableModel = new DefaultTableModel();
-        membersTableModel.addColumn("Member ID");
+        membersTableModel.addColumn("member_id");
         membersTableModel.addColumn("Name");
         membersTableModel.addColumn("Age");
         membersTableModel.addColumn("Contact Number");
         membersTableModel.addColumn("Period");
         membersTableModel.addColumn("Coach");
+        membersTableModel.addColumn("End Date");
 
         membersTable = new JTable(membersTableModel);
         membersTable.setOpaque(true);
@@ -67,7 +68,7 @@ public class viewMember extends JFrame {
     protected static void fetchData() {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gym_management", "root", "Ayad12345");
-            String query = "SELECT * FROM members";
+            String query = "SELECT member_id, name, age, contact_number, period, coach_name, end_date FROM members";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
@@ -76,8 +77,10 @@ public class viewMember extends JFrame {
                         int age = resultSet.getInt("age");
                         String contact = resultSet.getString("contact_number");
                         int period = resultSet.getInt("period");
-                        String coach = resultSet.getString("coach");
-                        membersTableModel.addRow(new Object[]{memberId, name, age, contact, period, coach});
+                        String coach = resultSet.getString("coach_name");
+                        Date endDate = resultSet.getDate("end_date");
+
+                        membersTableModel.addRow(new Object[]{memberId, name, age, contact, period, coach, endDate});
                         // Add data to the table model
                     }
                 }
@@ -87,7 +90,7 @@ public class viewMember extends JFrame {
         }
     }
 
-    private JPanel createButtonPanel() {
+    public JPanel createButtonPanel() {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(new Color(250, 250, 250));
 

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class addMember extends JFrame {
@@ -114,7 +115,11 @@ public class addMember extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addMemberToTable();
+                try {
+                    addMemberToTable();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
@@ -152,7 +157,13 @@ public class addMember extends JFrame {
         formPanel.add(component, gridBag);
     }
 
-    private void addMemberToTable() {
+    private java.sql.Date calculateEndDate(int period) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new java.util.Date());
+        calendar.add(Calendar.DAY_OF_MONTH, period);
+        return new java.sql.Date(calendar.getTimeInMillis());
+    }
+    private void addMemberToTable() throws SQLException {
         String name = nameField.getText();
         String age = ageField.getText();
         String contact = contactField.getText();
@@ -173,16 +184,39 @@ public class addMember extends JFrame {
 
     }
 
-    private void addMemberToTable(String name, String age, String contact, String period, String coach) {
+    private static int getCoachId(String coachName) throws SQLException {
+        int coachId = -1; // Default value if member is not found
+
+        Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gym_management", "root", "Ayad12345");
+        String selectQuery = "SELECT coach_id FROM coaches WHERE name = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+            preparedStatement.setString(1, coachName);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    coachId = resultSet.getInt("coach_id");
+                }
+            }
+        }
+
+        return coachId;
+    }
+    private void addMemberToTable(String name, String age, String contact, String period, String coach) throws SQLException {
+        int coachId = getCoachId(coach);
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gym_management", "root", "Ayad12345");
-            String query = "INSERT INTO members (name, age, contact_number, period, coach) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO members (name, age, contact_number, period, coach_name, coach_id, end_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, name);
                 preparedStatement.setInt(2, Integer.parseInt(age));
                 preparedStatement.setString(3, contact);
                 preparedStatement.setInt(4, Integer.parseInt(period));
                 preparedStatement.setString(5, coach);
+                preparedStatement.setInt(6, coachId);
+
+                // Calculate end_date based on current date + period
+                java.sql.Date endDate = calculateEndDate(Integer.parseInt(period));
+                preparedStatement.setDate(7, endDate);
+
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
