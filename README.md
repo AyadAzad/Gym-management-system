@@ -25,14 +25,14 @@ This Java Swing project with JDBC and MySQL integration is a Gym Management Syst
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/gym-management-system.git
+   git clone https://github.com/AyadAzad/gym-management-system.git
    ```
 
 2. Open the project in your preferred Java IDE.
 
 3. Update the MySQL database connection details in the code.
 
-4. Compile and run the `mainWindow` class.
+4. Compile and run the `Main` class.
 
 ## Usage
 
